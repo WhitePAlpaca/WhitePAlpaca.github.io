@@ -1,0 +1,92 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>White Alpaca</title>
+  <meta name="robots" content="noindex">
+  <meta name="description" content="The Iceberg catches your song ideas in seconds and, weeks or months later, brings one back to you, so nothing you make is ever lost.">
+  <meta name="theme-color" content="#eef4f7">
+  <link rel="icon" href="../assets/alpaca.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <!-- Ripple for the headline's reflection -->
+  <svg class="defs" width="0" height="0" aria-hidden="true" focusable="false">
+    <filter id="ripple" x="-5%" y="-20%" width="110%" height="140%">
+      <feTurbulence type="fractalNoise" baseFrequency="0.006 0.09" numOctaves="1" seed="4" result="n">
+        <animate id="rippleMove" attributeName="baseFrequency" dur="11s" values="0.006 0.09;0.008 0.12;0.006 0.09" repeatCount="indefinite"/>
+      </feTurbulence>
+      <feDisplacementMap in="SourceGraphic" in2="n" scale="9" xChannelSelector="R" yChannelSelector="G"/>
+    </filter>
+  </svg>
+
+  <header class="bar">
+    <a class="mark" href="./">
+      <img src="../assets/alpaca.svg" alt="" width="30" height="30">
+      <span>White Alpaca</span>
+    </a>
+    <nav aria-label="Sections">
+      <a href="#how">How it works</a>
+      <a href="#why">Why</a>
+    </nav>
+  </header>
+
+  <main>
+    <section class="sea" aria-labelledby="title">
+      <div class="air">
+        <h1 id="title" class="headline">Nothing you make<br>is ever lost.</h1>
+        <img class="alpaca" src="../assets/alpaca-scene.svg" alt="White Alpaca on a small ice floe, listening to music in headphones and writing lyrics in a notebook">
+      </div>
+
+      <div class="water">
+        <p class="reflection" aria-hidden="true">Nothing you make<br>is ever lost.</p>
+        <div class="slot" aria-hidden="true"></div>
+        <ul class="sunk" aria-label="Old ideas resting in the ice">
+          <li style="--x:60%;--y:44%;--k:1"  data-age="3 weeks ago">the streetlights hum in B flat,<br>nobody else seems to hear it</li>
+          <li style="--x:86%;--y:54%;--k:1.4" data-age="6 weeks ago">I kept the porch light on for a ghost</li>
+          <li style="--x:56%;--y:64%;--k:1.8" data-age="4 months ago">Hymn for the Night Bus</li>
+          <li style="--x:78%;--y:74%;--k:2.3" data-age="7 months ago">your coat still smells like November,<br>I don't wash it, I don't wear it</li>
+          <li style="--x:58%;--y:86%;--k:2.8" data-age="11 months ago">if the river remembers, so will I</li>
+          <li style="--x:84%;--y:93%;--k:3.3" data-age="2 years ago">everything I meant to tell you<br>fits inside a voicemail I never sent</li>
+        </ul>
+        <p class="risen-age" aria-live="polite"></p>
+
+        <div class="pitch">
+          <p>The Iceberg is a small Android app for songwriters. It catches a line or a hum in seconds, lets it sink safely into the ice, and weeks or months later brings it back up to you.</p>
+          <button class="up" type="button">Bring one up</button>
+        </div>
+      </div>
+    </section>
+
+    <section class="how" id="how" aria-label="How it works">
+      <div class="step s1"><h2>Write it down.</h2><p>A line in the shower, a melody on the night bus. Saved from the home screen before it can slip away.</p></div>
+      <div class="step s2"><h2>Let it sink.</h2><p>Life gets busy, and that's fine. It drifts into the ice and waits. Nothing expires, nothing nags you.</p></div>
+      <div class="step s3"><h2>Get it back.</h2><p>One quiet evening it comes back up, exactly as you left it, right when you need a spark.</p></div>
+    </section>
+
+    <section class="screens" aria-label="Screens from The Iceberg">
+      <div class="phones">
+        <figure><div class="phone"><img src="../assets/screens/home.webp" alt="The home screen: your ideas as small lights inside an iceberg" loading="lazy"></div><figcaption>Your ideas, as lights in the ice</figcaption></figure>
+        <figure class="mid"><div class="phone"><img src="../assets/screens/bti.webp" alt="Break the Ice: an old idea brought back up" loading="lazy"></div><figcaption>An old one, brought back</figcaption></figure>
+        <figure><div class="phone"><img src="../assets/screens/keys.webp" alt="Keys: a small keyboard that names every note" loading="lazy"></div><figcaption>Sketch it into a song</figcaption></figure>
+      </div>
+      <p class="private">Everything stays on your phone. No account, no cloud, no ads, and your words are never rewritten.</p>
+    </section>
+
+    <section class="why" id="why" aria-labelledby="why-title">
+      <h2 id="why-title">Why I'm making it</h2>
+      <p>Most songs don't disappear because they're bad. They disappear because we're tired, or busy, or a little lazy that day, and the idea slips into a notes app nobody opens again.</p>
+      <p>I wanted a place that catches those pieces, keeps them safe, and then does the part nobody else does: brings them back to you. The half-song from last spring, the line from a sleepless night.</p>
+      <p class="sign">White Alpaca</p>
+    </section>
+  </main>
+
+  <footer>
+    <p class="soon">The Iceberg is coming soon to Android.</p>
+    <p class="small">© 2026 White Alpaca. <a href="../privacy.html">Privacy</a></p>
+  </footer>
+
+  <script src="main.js"></script>
+</body>
+</html>
