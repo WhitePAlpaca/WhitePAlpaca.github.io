@@ -32,7 +32,7 @@
       <stop offset="1" stop-color="#9FB9CC"/>
     </linearGradient>
   </defs>
-  <circle class="glow" cx="300" cy="120" r="120" fill="url(#lamp)"/>
+  <circle class="glow" cx="300" cy="120" r="92" fill="url(#lamp)"/>
 
   <!-- water line and the floe -->
   <path d="M0 286 C 60 280, 120 292, 200 286 S 340 280, 400 287" fill="none" stroke="#5d7a90" stroke-width="2" stroke-linecap="round" opacity=".8"/>
