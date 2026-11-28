@@ -4,7 +4,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>The Iceberg · Get your old song ideas back</title>
-  <meta name="description" content="The Iceberg is a songwriting scratchpad for Android. Catch a lyric or a hum in one tap, and get forgotten ideas back months later, each with an honest reason why. No account, no cloud, no AI. Join the beta.">
+  <meta name="description" content="The Iceberg is a songwriting scratchpad for Android. Catch a lyric or a hum in one tap, and get forgotten ideas back months later, each with an honest reason why. No account, no cloud, no AI.">
   <meta property="og:title" content="The Iceberg: get your old song ideas back">
   <meta property="og:description" content="Catch a lyric or a hum in one tap. Months later, The Iceberg brings it back with an honest reason why. No account, no cloud, no AI.">
   <meta property="og:image" content="https://whitealpaca.tech/assets/share.png">
@@ -20,20 +20,20 @@
 <body>
   <a class="skip" href="#main">Skip to content</a>
 
-  <header class="top" id="top">
+  <header class="top">
     <a class="brand" href="#main" aria-label="The Iceberg by White Alpaca, back to top">
       <img src="assets/alpaca.svg" alt="" width="32" height="32">
       <span>The Iceberg</span>
     </a>
     <nav aria-label="Sections">
-      <a href="#how">How it works</a>
-      <a href="#features">Features</a>
-      <a href="#faq">Questions</a>
-      <a class="btn btn-small" href="#beta">Join the beta</a>
+      <a href="#how" data-spy="how">How it works</a>
+      <a href="#resurfacing" data-spy="resurfacing">Features</a>
+      <a href="#faq" data-spy="faq">Questions</a>
+      <a class="btn-ghost" href="#beta" data-spy="beta">Join the beta</a>
+      <svg class="nav-ink" viewBox="0 0 60 8" preserveAspectRatio="none" aria-hidden="true"><path d="M2 5 C 10 1, 18 8, 30 4 S 50 1, 58 5"/></svg>
     </nav>
   </header>
 
-  <!-- Depth gauge: the deeper you scroll, the older the ideas -->
   <aside class="gauge" aria-hidden="true">
     <span class="gauge-track"><span class="gauge-fill"></span></span>
     <span class="gauge-label">now</span>
@@ -41,86 +41,104 @@
 
   <main id="main">
 
-    <!-- ============ HERO ============ -->
-    <section class="hero">
+    <!-- ============ HERO: the app's iceberg, live ============ -->
+    <section class="hero" id="hero">
+      <div class="moon" aria-hidden="true"></div>
+      <canvas id="berg" aria-hidden="true"></canvas>
+
       <div class="hero-copy">
-        <p class="pill load" style="--i:0"><span class="dot"></span> Beta for Android, coming soon</p>
+        <p class="pill load" style="--i:0"><span class="dot"></span> Coming soon to Android</p>
         <h1 class="load" style="--i:1">Catch it in a second.<br><span class="h1-quiet">Get it back months later.</span></h1>
-        <p class="lead load" style="--i:2">The Iceberg is a scratchpad for songwriters. Hum a melody or write a line in one tap from your home screen. Then forget about it. Weeks or months later it brings the idea back to you, exactly as you left it, with an honest reason why.</p>
-
-        <form class="signup load" style="--i:3" data-signup novalidate>
-          <label class="sr-only" for="hero-email">Your email</label>
-          <input id="hero-email" name="email" type="email" inputmode="email" autocomplete="email" placeholder="you@example.com" required>
-          <button class="btn" type="submit">Get a beta invite</button>
-          <p class="form-note" role="status" aria-live="polite">One email when the beta opens. Nothing else.</p>
-        </form>
-
-        <p class="promise load" style="--i:4">
-          <svg viewBox="0 0 20 20" aria-hidden="true"><rect x="4.5" y="9" width="11" height="8" rx="2"/><path d="M7 9V6.5a3 3 0 0 1 6 0V9"/></svg>
-          No account, no cloud, no AI. Your half-written lyrics stay on your phone.
-        </p>
+        <p class="lead load" style="--i:2">The Iceberg is a scratchpad for songwriters. Every lyric and hum you catch becomes a light in the ice. New ones float at the surface, old ones sink, and one day it brings an old one back with an honest reason why.</p>
+        <div class="hero-actions load" style="--i:3">
+          <a class="btn" href="#how">See how it works</a>
+          <span class="hint-try"><svg viewBox="0 0 40 24" aria-hidden="true"><path d="M2 12 C 12 4, 24 20, 36 10 M30 6 L37 10 L31 15"/></svg> or play with the iceberg</span>
+        </div>
       </div>
 
-      <!-- The one orchestrated moment: a pile of "New Recording" files sinks, one idea rises -->
-      <div class="hero-demo" aria-label="Demo: a forgotten voice memo comes back with a reason">
-        <ol class="pile" aria-hidden="true">
-          <li style="--n:0">New Recording 84 <span>0:21</span></li>
-          <li style="--n:1">New Recording 85 <span>0:07</span></li>
-          <li style="--n:2">New Recording 86 <span>1:12</span></li>
-          <li style="--n:3">New Recording 87 <span>0:14</span></li>
-          <li style="--n:4">New Recording 88 <span>0:33</span></li>
-        </ol>
+      <div class="scene" id="scene">
+        <div class="chips load" style="--i:4" role="group" aria-label="Show ideas">
+          <button type="button" class="chip on" data-filter="all" aria-pressed="true">All</button>
+          <button type="button" class="chip" data-filter="words" aria-pressed="false">Words</button>
+          <button type="button" class="chip" data-filter="voice" aria-pressed="false">Voice</button>
+          <button type="button" class="chip" data-filter="melody" aria-pressed="false">Melodies</button>
+        </div>
+        <p class="scene-hint load" style="--i:5">Drag to turn · tap a light to open it</p>
 
-        <article class="surfaced" id="surfaced">
-          <header class="surfaced-head">
-            <span class="kind" data-f="kind">Voice memo</span>
+        <button class="boat" type="button" aria-label="A paper boat with a lantern">
+          <svg viewBox="0 0 64 40" aria-hidden="true"><path class="boat-sail" d="M30 4 L30 26 L14 26 Z"/><path class="boat-hull" d="M4 26 L60 26 L50 36 L14 36 Z"/><path class="boat-fold" d="M32 26 L42 14 L50 26"/><circle class="boat-lamp" cx="31" cy="4" r="2.6"/></svg>
+        </button>
+        <button class="floe" type="button" aria-label="White Alpaca on her ice floe, listening to music">
+          <img src="assets/alpaca-scene.svg" alt="">
+        </button>
+
+        <article class="idea-card" id="card" hidden aria-live="polite">
+          <button class="card-x" type="button" aria-label="Close">×</button>
+          <p class="card-sub" data-f="sub">Something from deeper down.</p>
+          <header class="card-head">
+            <span class="kind" data-f="kind">Voice</span>
             <span data-f="age">5 months ago</span>
           </header>
-          <h2 class="surfaced-title" data-f="title">Voicemail chords</h2>
-          <p class="surfaced-words" data-f="words">hummed on the night bus, fourteen seconds of something</p>
+          <h2 class="card-title" data-f="title">Voicemail chords</h2>
+          <p class="card-words" data-f="words"></p>
           <button class="play" type="button" data-play aria-label="Play this idea">
             <svg class="i-play" viewBox="0 0 20 20" aria-hidden="true"><path d="M6 4l10 6-10 6z"/></svg>
             <svg class="i-stop" viewBox="0 0 20 20" aria-hidden="true"><rect x="5" y="5" width="10" height="10" rx="1.5"/></svg>
             <span class="wave" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></span>
             <span class="play-time" data-f="len">0:14</span>
           </button>
-          <div class="why-this">
+          <div class="why-this" data-f="whybox">
             <p class="why-title">Why this one</p>
-            <ul data-f="reasons">
-              <li>You caught this 5 months ago.</li>
-              <li>You haven't opened it since.</li>
-            </ul>
+            <ul data-f="reasons"></ul>
           </div>
-          <div class="surfaced-actions">
+          <div class="card-actions" data-f="actions">
             <button class="btn btn-small" type="button" data-another>Another</button>
             <button class="btn-text" type="button" data-notnow>Not now</button>
           </div>
-          <p class="surfaced-foot">Chosen on your phone. Nothing is analysed or sent anywhere.</p>
+          <p class="card-foot" data-f="foot">Chosen on this phone from how long it's been quiet. Nothing is analysed or sent anywhere.</p>
         </article>
+
+        <div class="scene-bottom load" style="--i:6">
+          <button class="bti" type="button" data-bti>
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3v6M12 15v6M3 12h6M15 12h6M6 6l3 3M15 15l3 3M18 6l-3 3M9 15l-3 3"/></svg>
+            Break the Ice
+          </button>
+          <form class="dock" id="dock" autocomplete="off">
+            <label class="sr-only" for="dock-input">Write an idea</label>
+            <input id="dock-input" type="text" maxlength="90" placeholder="Write it down…" enterkeyhint="done">
+            <button class="dock-rec" type="submit" aria-label="Record a voice memo">
+              <span class="rec-dot"></span>
+              <svg class="keep-ico" viewBox="0 0 20 20" aria-hidden="true"><path d="M4.5 10.5l3.5 3.5 7.5-8"/></svg>
+            </button>
+            <span class="dock-timer" aria-live="polite"></span>
+          </form>
+          <p class="dock-toast" role="status" aria-live="polite"></p>
+        </div>
       </div>
     </section>
-
-    <!-- The waterline, with the alpaca on her floe -->
-    <div class="waterline" aria-hidden="true">
-      <div class="floe">
-        <img src="assets/alpaca-scene.svg" alt="">
-      </div>
-      <svg class="wave-line w1" viewBox="0 0 1200 40" preserveAspectRatio="none"><path d="M0 20 Q 75 6 150 20 T 300 20 T 450 20 T 600 20 T 750 20 T 900 20 T 1050 20 T 1200 20 T 1350 20 T 1500 20 T 1650 20 T 1800 20 T 1950 20 T 2100 20 T 2250 20 T 2400 20 V40 H0 Z"/></svg>
-      <svg class="wave-line w2" viewBox="0 0 1200 40" preserveAspectRatio="none"><path d="M0 22 Q 100 10 200 22 T 400 22 T 600 22 T 800 22 T 1000 22 T 1200 22 T 1400 22 T 1600 22 T 1800 22 T 2000 22 T 2200 22 T 2400 22 V40 H0 Z"/></svg>
-    </div>
 
     <div class="sea">
 
       <!-- ============ PROBLEM ============ -->
       <section class="problem" data-depth="1 day">
-        <div class="wrap narrow">
-          <h2 class="reveal">Recording ideas was never the hard part.</h2>
-          <p class="reveal">Your phone already has a free recorder. The trouble is what happens after: hundreds of files called <span class="file">New Recording <span class="count" data-count="87">87</span></span>, a notes app full of half lines, and nobody ever opens them again.</p>
-          <p class="reveal">Most songs don't disappear because they're bad. They disappear because you were tired that day. The Iceberg is built for the part after the recording: getting back to what you made.</p>
-          <blockquote class="reveal">
-            <p>Something that didn't click at the time can lead to something good later when you stumble across it.</p>
-            <footer>A producer on Reddit, after finding a folder of old projects</footer>
-          </blockquote>
+        <div class="wrap split-problem">
+          <div>
+            <h2 class="reveal">Recording ideas was never the hard part.</h2>
+            <p class="reveal">Your phone already has a free recorder. The trouble is what happens after: hundreds of files called <span class="file">New Recording <span class="count" data-count="87">87</span></span>, a notes app full of half lines, and nobody ever opens them again.</p>
+            <p class="reveal">Most songs don't disappear because they're bad. They disappear because you were tired that day. The Iceberg is built for the part after the recording: getting back to what you made.</p>
+            <blockquote class="reveal">
+              <p>Something that didn't click at the time can lead to something good later when you stumble across it.</p>
+              <footer>A producer on Reddit, after finding a folder of old projects</footer>
+            </blockquote>
+          </div>
+          <div class="pile reveal" aria-hidden="true">
+            <span style="--n:0">New Recording 84 <i>0:21</i></span>
+            <span style="--n:1">New Recording 85 <i>0:07</i></span>
+            <span style="--n:2">New Recording 86 <i>1:12</i></span>
+            <span style="--n:3" class="pile-keep">New Recording 87 <i>0:14</i></span>
+            <span style="--n:4">New Recording 88 <i>0:33</i></span>
+            <span style="--n:5">New Recording 89 <i>0:09</i></span>
+          </div>
         </div>
       </section>
 
@@ -130,51 +148,42 @@
           <h2 class="reveal">How it works</h2>
           <ol class="steps">
             <li class="reveal">
+              <div class="vignette v-catch" aria-hidden="true">
+                <div class="mini-dock"><span class="typed">the streetlights hum in B flat</span><span class="mini-rec"></span></div>
+                <span class="mini-light"></span>
+              </div>
               <span class="step-n">1</span>
               <h3>Catch it</h3>
-              <p>One tap on the widget and you're recording. Or type a line: the draft saves with every letter, so a phone call can't take it from you.</p>
+              <p>One tap on the home-screen widget and you're recording. Or type a line: the draft saves with every letter, so a phone call can't take it from you.</p>
             </li>
             <li class="reveal">
+              <div class="vignette v-sink" aria-hidden="true">
+                <span class="v-water"></span>
+                <p style="--x:8%;--d:0s">your coat still smells like November</p>
+                <p style="--x:22%;--d:-3s">Am – F – C – G</p>
+                <p style="--x:4%;--d:-6s">a kitchen at 3am</p>
+                <p style="--x:30%;--d:-9s">♪ 0:14, night bus</p>
+              </div>
               <span class="step-n">2</span>
               <h3>Let it sink</h3>
               <p>Every idea becomes a light in a 3D iceberg. New ones float at the tip; older ones drift slowly deeper. Nothing expires, nothing nags you.</p>
             </li>
             <li class="reveal">
+              <div class="vignette v-rise" aria-hidden="true">
+                <span class="v-water"></span>
+                <span class="rise-light"></span>
+                <span class="rise-ring"></span>
+                <span class="rise-label">You caught this 5 months ago.</span>
+              </div>
               <span class="step-n">3</span>
               <h3>Get it back</h3>
               <p>Tap <strong>Break the Ice</strong> and a forgotten idea rises to the surface, with the reasons it was picked. Open it, ask for another, or put it back for two weeks.</p>
             </li>
           </ol>
-
-          <div class="deep-demo reveal">
-            <div class="deep-copy">
-              <h3>Try it: tap a light</h3>
-              <p>Deeper means older. Each light is one idea, the way they look inside the app.</p>
-            </div>
-            <div class="deep" id="deep">
-              <span class="surface-line"></span>
-              <span class="age-mark" style="top:22%">1 week</span>
-              <span class="age-mark" style="top:46%">1 month</span>
-              <span class="age-mark" style="top:70%">6 months</span>
-              <span class="age-mark" style="top:90%">1 year</span>
-              <button class="light" style="--x:22%;--y:16%" data-meta="3 weeks ago · lyric" data-text="the streetlights hum in B flat&#10;nobody else seems to hear it" aria-label="Open an idea from 3 weeks ago"></button>
-              <button class="light" style="--x:68%;--y:28%" data-meta="6 weeks ago · chorus" data-text="I kept the porch light on for a ghost" aria-label="Open an idea from 6 weeks ago"></button>
-              <button class="light voice" style="--x:44%;--y:39%" data-meta="2 months ago · voice memo · 0:14" data-text="hummed on the night bus,&#10;fourteen seconds of something" aria-label="Open a voice memo from 2 months ago"></button>
-              <button class="light" style="--x:80%;--y:52%" data-meta="4 months ago · title" data-text="Hymn for the Night Bus" aria-label="Open an idea from 4 months ago"></button>
-              <button class="light" style="--x:28%;--y:60%" data-meta="7 months ago · second verse" data-text="your coat still smells like November&#10;I don't wash it, I don't wear it" aria-label="Open an idea from 7 months ago"></button>
-              <button class="light voice" style="--x:62%;--y:72%" data-meta="11 months ago · voice memo · 0:31" data-text="if the river remembers, so will I" aria-label="Open a voice memo from 11 months ago"></button>
-              <button class="light" style="--x:24%;--y:84%" data-meta="1 year ago · lyric" data-text="we folded every promise into paper boats&#10;and let the gutter carry them to sea" aria-label="Open an idea from a year ago"></button>
-              <button class="light" style="--x:76%;--y:90%" data-meta="2 years ago · chords" data-text="Am – F – C – G&#10;stay on F one bar longer" aria-label="Open an idea from 2 years ago"></button>
-              <figure class="note" aria-live="polite"><p class="note-text">Tap any light.</p><p class="note-meta">It rises to the surface.</p></figure>
-            </div>
-          </div>
         </div>
       </section>
 
-      <!-- ============ FEATURES ============ -->
-      <div id="features"></div>
-
-      <!-- Resurfacing -->
+      <!-- ============ RESURFACING ============ -->
       <section class="feature" id="resurfacing" data-depth="1 month">
         <div class="wrap split">
           <div class="feature-copy">
@@ -182,7 +191,7 @@
             <h2 class="reveal">The part Voice Memos doesn't do.</h2>
             <p class="reveal">Break the Ice picks one older idea and tells you, in plain words, why it picked that one. No mystery, no feed, no algorithm guessing your taste. Just the ideas that have been quiet the longest, and the ones you never finished.</p>
 
-            <div class="weights reveal" aria-label="What makes an idea more likely to come back">
+            <div class="weights reveal">
               <p class="weights-title">What makes an idea come back</p>
               <ul>
                 <li style="--w:100%"><span>It hasn't come up lately</span><i></i></li>
@@ -196,7 +205,7 @@
               <p class="weights-note">Ideas younger than a week never come back. Anything that surfaced in the last two days waits its turn. A little chance mixes the top few, so it never feels like a fixed list.</p>
             </div>
           </div>
-          <figure class="phone reveal"><img src="assets/screens/bti.webp" width="320" height="693" alt="Break the Ice screen: a voice memo called Voicemail chords from 5 months ago. Why this one: you caught this 5 months ago, you haven't opened it since. Buttons: Open, Another, Not now." loading="lazy"></figure>
+          <figure class="phone reveal"><img src="assets/screens/bti.webp" width="320" height="693" alt="Break the Ice in the app: a voice memo called Voicemail chords from 5 months ago. Why this one: you caught this 5 months ago, you haven't opened it since. Buttons: Open, Another, Not now." loading="lazy"></figure>
         </div>
 
         <div class="wrap">
@@ -217,7 +226,7 @@
         </div>
       </section>
 
-      <!-- Fast capture -->
+      <!-- ============ CAPTURE ============ -->
       <section class="feature" id="capture" data-depth="2 months">
         <div class="wrap split flip">
           <div class="feature-copy">
@@ -256,7 +265,7 @@
         </div>
       </section>
 
-      <!-- Pocket Studio -->
+      <!-- ============ POCKET STUDIO ============ -->
       <section class="feature" id="studio" data-depth="6 months">
         <div class="wrap split">
           <div class="feature-copy">
@@ -284,10 +293,10 @@
         </div>
       </section>
 
-      <!-- Yours and safe -->
+      <!-- ============ PRIVATE + BACKUPS ============ -->
       <section class="feature yours" id="private" data-depth="1 year">
         <div class="wrap">
-          <h2 class="reveal center-ish">Your half-written lyrics stay yours.</h2>
+          <h2 class="reveal">Your half-written lyrics stay yours.</h2>
           <div class="yours-grid">
             <div class="yours-col reveal">
               <h3>Private by design</h3>
@@ -312,12 +321,18 @@
         </div>
       </section>
 
-      <!-- More in the ice -->
+      <!-- ============ MORE + DISCOVERIES ============ -->
       <section class="more" data-depth="2 years">
+        <div class="swimmers" aria-hidden="true">
+          <svg class="fish f1" viewBox="0 0 40 20"><path d="M2 10 C 10 2, 24 2, 30 10 C 24 18, 10 18, 2 10 Z M30 10 L38 4 L38 16 Z"/></svg>
+          <svg class="fish f2" viewBox="0 0 40 20"><path d="M2 10 C 10 2, 24 2, 30 10 C 24 18, 10 18, 2 10 Z M30 10 L38 4 L38 16 Z"/></svg>
+          <svg class="jelly" viewBox="0 0 40 60"><path class="bell" d="M4 22 C 4 6, 36 6, 36 22 C 30 20, 26 24, 20 22 C 14 24, 10 20, 4 22 Z"/><path class="tent" d="M10 24 C 8 34, 14 40, 10 52 M18 24 C 17 36, 22 42, 19 56 M26 24 C 27 34, 22 42, 26 52 M32 23 C 34 32, 30 38, 32 46"/></svg>
+          <svg class="whale" viewBox="0 0 240 80"><path d="M8 44 C 26 16, 112 10, 164 30 C 180 36, 192 40, 204 34 L 230 16 C 226 30, 225 40, 234 54 L 204 46 C 188 54, 166 60, 134 62 C 84 66, 24 64, 8 44 Z"/><circle cx="36" cy="40" r="2.6" class="eye"/></svg>
+        </div>
         <div class="wrap">
           <h2 class="reveal">Also in the ice</h2>
           <div class="gallery reveal" tabindex="0" aria-label="More screens from the app, scroll sideways">
-            <figure><div class="phone"><img src="assets/screens/iceberg.webp" width="240" height="520" alt="The iceberg: ideas as lights inside a 3D iceberg, with depth marks for now, 1 week, 1 month and 6 months." loading="lazy"></div><figcaption><strong>A living iceberg.</strong> Turn it, tilt it, tap a light. Small creatures move in as it grows.</figcaption></figure>
+            <figure><div class="phone"><img src="assets/screens/iceberg.webp" width="240" height="520" alt="The iceberg: ideas as lights inside a 3D iceberg, with depth marks for now, 1 week, 1 month and 6 months." loading="lazy"></div><figcaption><strong>A living iceberg.</strong> Turn it, tilt it, tap a light. It grows deeper as your ideas pile up.</figcaption></figure>
             <figure><div class="phone"><img src="assets/screens/five.webp" width="240" height="520" alt="Five minutes: how much energy do you have right now? Tired, Okay, Fired up." loading="lazy"></div><figcaption><strong>"I have 5 minutes."</strong> One small task from your own ideas, sized to your energy.</figcaption></figure>
             <figure><div class="phone"><img src="assets/screens/projects.webp" width="240" height="520" alt="A song project with its ideas, memos and one clear next move." loading="lazy"></div><figcaption><strong>Projects.</strong> Gather the lines, hums and melodies of one song, with one next move.</figcaption></figure>
             <figure><div class="phone"><img src="assets/screens/lyrics.webp" width="240" height="520" alt="Lyric writer with verse and chorus sections, syllable counts and rhyme highlights." loading="lazy"></div><figcaption><strong>Lyric writer.</strong> Sections, syllable counts and rhymes lit up as you write.</figcaption></figure>
@@ -326,10 +341,11 @@
             <figure><div class="phone"><img src="assets/screens/beats.webp" width="240" height="520" alt="Beats: a 16-step drum machine with kits." loading="lazy"></div><figcaption><strong>Beats.</strong> A 16-step drum machine with 21 sounds and swing.</figcaption></figure>
           </div>
           <p class="more-line reveal">Plus a tuner, a metronome, vocal pitch practice, Night and Morning themes, and five languages: English, Español, Русский, ไทย, 简体中文.</p>
+          <p class="discover reveal">Stay long enough and the deep starts showing you things. Fourteen small secrets join your iceberg over two years: a little fish after a week, a glowing jellyfish, a passing whale, a sunken ship, a narwhal. No streaks, and a discovery is never lost.</p>
         </div>
       </section>
 
-      <!-- Plus -->
+      <!-- ============ PLUS ============ -->
       <section class="plus" id="plus" data-depth="the deep">
         <div class="wrap narrow">
           <h2 class="reveal">What's in Plus</h2>
@@ -363,7 +379,7 @@
         </div>
       </section>
 
-      <!-- FAQ -->
+      <!-- ============ FAQ ============ -->
       <section class="faq" id="faq" data-depth="the deep">
         <div class="wrap narrow">
           <h2 class="reveal">Questions</h2>
@@ -430,23 +446,23 @@
 
           <details>
             <summary>Who makes this?</summary>
-            <div><p>One person, under the name White Alpaca. A songwriter's tool made slowly and with care, by someone who also had a phone full of forgotten hums.</p></div>
+            <div><p>Me, Andrei Iakovlev. White Alpaca is my one-person studio, and The Iceberg is its first app. I make it slowly and with care, because I also had a phone full of forgotten hums. Write to me any time at <a href="mailto:anewyak@gmail.com">anewyak@gmail.com</a>.</p></div>
           </details>
         </div>
       </section>
 
-      <!-- Letter + Beta -->
+      <!-- ============ LETTER + BETA ============ -->
       <section class="beta" id="beta" data-depth="the sea floor">
         <div class="wrap narrow">
           <div class="letter reveal">
             <p>I wanted a place that catches the pieces without asking anything back, keeps them safe, and then does the part nobody else does: brings them back. The half-song from last spring, the line from a sleepless night. Nothing you made should be lost just because you were tired.</p>
-            <p class="sign"><img src="assets/alpaca.svg" alt="" width="40" height="40"> White Alpaca</p>
+            <p class="sign"><img src="assets/alpaca.svg" alt="" width="40" height="40"> <span>Andrei Iakovlev<small>White Alpaca</small></span></p>
           </div>
 
           <div class="beta-box reveal">
             <h2>Be one of the first to try it</h2>
             <p>Leave your email and you'll get a beta invite when The Iceberg opens for testers on Google Play. One email, no newsletter.</p>
-            <form class="signup signup-big" data-signup novalidate>
+            <form class="signup" data-signup novalidate>
               <label for="beta-email">Email of your Google account</label>
               <div class="signup-row">
                 <input id="beta-email" name="email" type="email" inputmode="email" autocomplete="email" placeholder="you@gmail.com" required>
@@ -475,10 +491,11 @@
   </main>
 
   <footer class="foot">
-    <p>© 2026 White Alpaca. Made slowly, one small thing at a time.</p>
+    <p>© 2026 White Alpaca, by Andrei Iakovlev. Made slowly, one small thing at a time.</p>
     <p><a href="privacy.html">Privacy</a> <a href="mailto:anewyak@gmail.com">anewyak@gmail.com</a></p>
   </footer>
 
+  <script src="iceberg.js"></script>
   <script src="script.js"></script>
 </body>
 </html>
